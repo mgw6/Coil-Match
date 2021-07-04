@@ -56,14 +56,13 @@ class coil: #Armature Coil object
             
 class match:
     def badFirst(list1, list2):
-        list1.sort(key = lambda x: x.Min_Fcn, reverse = True)
-        list2.sort(key = lambda x: x.Min_Fcn, reverse = True)
+        list1.sort(key = lambda x: x.Min_Fcn, reverse = True).copy()
+        list2.sort(key = lambda x: x.Min_Fcn, reverse = True).copy()
         
         L1_len = len(list1)
         L2_len = len(list2)
         
         match_list = []
-        
         
         while L2_len >0:
             for x in range(L1_len): #go through list 1
@@ -89,12 +88,14 @@ class match:
                         
                 
                 temp_list = [list1[x], list2[current_match_loc], current_match]
+                
                 match_list.append(temp_list)
                 
                 list2.pop(current_match_loc)
                 L2_len = len(list2)
                 
         match_list.sort(key = lambda x: x[2], reverse = False)
+        print(L2_len)
         return match_list
         
         
@@ -205,6 +206,7 @@ class xlWork:
         return xw.Workbook(save_loc)  
         
     def write2XL(XLPath, pairs_list, trialName):
+        
         outSheet = XLPath.add_worksheet(name = "Compact View -- " + trialName)
         outSheet.write(0,0, 'Top bar') 
         outSheet.write(0,1, 'Bottom bar')
@@ -301,22 +303,13 @@ class xlWork:
             outSheet.write(location, 17, pairs_list[item][0].TECD2)
             outSheet.write(location+1, 17, pairs_list[item][1].TECD2)
             
-            
-            
-            
             outSheet.write(location+2, 0, 'Avg Diff:')
             outSheet.write(location+2, 1, pairs_list[item][2])
             
-            
             location +=4
-        
-
-        XLPath.close()
-
 
 
 if __name__ == '__main__':
-    
     
     
     print("\n================== Matching Armature Coil Pairs! ===========================")
@@ -330,8 +323,10 @@ if __name__ == '__main__':
     
     [list_tops, list_bots] = match.splitFullList(coil_list)#split full list into tops and bottoms
     
+    
     goodPairList = match.goodFirst(list_bots, list_tops)#make list of pairs
-    badPairList = match.badFirst(list_bots, list_tops)
+    
+    
     
     #Set save location
     print("Now select where you want this to be saved.")
@@ -339,7 +334,8 @@ if __name__ == '__main__':
     input("Press enter to continue: ")  
     outWKBK = xlWork.getSavePath() #set path to save to
     xlWork.write2XL(outWKBK, goodPairList, "Best First")
-    xlWork.write2XL(outWKBK, badPairList, "Bad First")
+    outWKBK.close()
+    
     
     print("Done. Have a nice day!")
     
