@@ -55,9 +55,9 @@ class coil: #Armature Coil object
             
             
 class match:
-    def badFirst(list1, list2):
-        list1.sort(key = lambda x: x.Min_Fcn, reverse = True).copy()
-        list2.sort(key = lambda x: x.Min_Fcn, reverse = True).copy()
+    def bad_first(list1, list2):
+        list1.sort(key = lambda x: x.Min_Fcn, reverse = True)
+        list2.sort(key = lambda x: x.Min_Fcn, reverse = True)
         
         L1_len = len(list1)
         L2_len = len(list2)
@@ -99,7 +99,7 @@ class match:
         return match_list
         
         
-    def goodFirst(list1, list2):
+    def good_first(list1, list2):
         list1.sort(key = lambda x: x.Min_Fcn, reverse = False)
         list2.sort(key = lambda x: x.Min_Fcn, reverse = False)
         
@@ -309,9 +309,9 @@ class xlWork:
             location +=4
 
 
-if __name__ == '__main__':
+
     
-    
+def main():   
     print("\n================== Matching Armature Coil Pairs! ===========================")
     print("Program written by MacGregor Winegard, son of Edward.\n")
     print("This program is designed to work with the raw excel file from the machine.")
@@ -320,22 +320,21 @@ if __name__ == '__main__':
     
     
     coil_list = xlWork.XL2List() #extract data from XL sheet
-    
     [list_tops, list_bots] = match.splitFullList(coil_list)#split full list into tops and bottoms
     
-    
-    goodPairList = match.goodFirst(list_bots, list_tops)#make list of pairs
-    
-    
+    goodPairList = match.good_first(list_bots.copy(), list_tops.copy())#make list of pairs
+    badPairList = match.bad_first(list_bots.copy(), list_tops.copy())#make list of pairs
     
     #Set save location
     print("Now select where you want this to be saved.")
     print("Pleas enter the filename WITHOUT an extension")
     input("Press enter to continue: ")  
-    outWKBK = xlWork.getSavePath() #set path to save to
-    xlWork.write2XL(outWKBK, goodPairList, "Best First")
-    outWKBK.close()
-    
+    out_wkbk = xlWork.getSavePath() #set path to save to
+    xlWork.write2XL(out_wkbk, goodPairList, "Best First")
+    xlWork.write2XL(out_wkbk, badPairList, "Bad First")
+    out_wkbk.close()
     
     print("Done. Have a nice day!")
-    
+   
+if __name__ == '__main__':
+    main()
