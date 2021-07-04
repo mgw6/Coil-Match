@@ -1,5 +1,15 @@
-#This is the most up to date version as of September 2020
-#Armature Coil
+#Program by MacGregor Winegard on 7/4/2021
+#Armature Coil Matchers
+#Takes list of top and bottom armature coils and provides the best pairs
+#based on manufacturing data
+
+import pandas as pd
+import numpy as np
+import tkinter as tk
+from tkinter import filedialog
+import xlsxwriter as xw
+    
+
 class coil: #Armature Coil object
     def __init__(self, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S):
         #letter above corresponds to column letter in Excel sheet
@@ -129,16 +139,70 @@ class match:
                 
         match_list.sort(key = lambda x: x[2], reverse = False)
         return match_list
+        
+    def splitFullList(coil_list):
+        list_tops = []
+        list_bots = []
+        
+        for x in coil_list: #goes through whole list
+            if x[2] == 'T': #extracts top bars
+                b = x[1]
+                c = True
+                d = x[3]
+                e = x[4]
+                f = x[5]
+                g = x[6]
+                h = x[7]
+                i = x[8]
+                j = x[9]
+                k = x[10]
+                l = x[11] 
+                m = x[12] 
+                n = x[13] 
+                o = x[14] 
+                p = x[15] 
+                q = x[16] 
+                r = x[17] 
+                s = x[18]
 
+                list_tops.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
+                
+            
+            elif x[2] == 'B':  #extracts bottom bars
+                b = x[1]
+                c = False
+                d = x[3]
+                e = x[4]
+                f = x[5]
+                g = x[6]
+                h = x[7]
+                i = x[8]
+                j = x[9]
+                k = x[10]
+                l = x[11] 
+                m = x[12] 
+                n = x[13] 
+                o = x[14] 
+                p = x[15] 
+                q = x[16] 
+                r = x[17] 
+                s = x[18]
+                
+                list_bots.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
+        return  [list_tops, list_bots]
+
+
+class xlWork:
+    def XL2List():
+        root = tk.Tk() #idk what these are 
+        root.withdraw()  #https://www.youtube.com/watch?v=H71ts4XxWYU   
+        file_path = filedialog.askopenfilename(filetypes = [('Excel Files', '*.xlsx')]) #but basically this opens the file selector  
+        df = pd.read_excel(file_path) #https://www.youtube.com/watch?v=S5EVZwXnleM     
+        return df.to_numpy()   
 
 
 
 if __name__ == '__main__':
-    import pandas as pd
-    import numpy as np
-    import tkinter as tk
-    from tkinter import filedialog
-    import xlsxwriter as xw
     
     
     
@@ -146,74 +210,17 @@ if __name__ == '__main__':
     print("Program written by MacGregor Winegard, son of Edward.\n")
     print("This program is designed to work with the raw excel file from the machine.")
     print("If you have modified the file this program will not do what is intended!")
-
-    
     input("Press enter to select file: ") #First we need to select the in file       
-    root = tk.Tk() #idk what these are 
-    root.withdraw()  #https://www.youtube.com/watch?v=H71ts4XxWYU   
-    file_path = filedialog.askopenfilename(filetypes = [('Excel Files', '*.xlsx')]) #but basically this opens the file selector  
     
+    coil_list = xlWork.XL2List()
     
+    [list_tops, list_bots] = match.splitFullList(coil_list)
     
-    list_tops = []
-    list_bots = []
-    df = pd.read_excel(file_path) #https://www.youtube.com/watch?v=S5EVZwXnleM     
-    full_list = df.to_numpy() 
-    global_length = len(full_list)
-    
-    for x in range(global_length): #goes through whole list
-        if full_list[x][2] == 'T': #extracts top bars
-            b = full_list[x][1]
-            c = True
-            d = full_list[x][3]
-            e = full_list[x][4]
-            f = full_list[x][5]
-            g = full_list[x][6]
-            h = full_list[x][7]
-            i = full_list[x][8]
-            j = full_list[x][9]
-            k = full_list[x][10]
-            l = full_list[x][11] 
-            m = full_list[x][12] 
-            n = full_list[x][13] 
-            o = full_list[x][14] 
-            p = full_list[x][15] 
-            q = full_list[x][16] 
-            r = full_list[x][17] 
-            s = full_list[x][18]
-
-            list_tops.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
-            
-        
-        elif full_list[x][2] == 'B':  #extracts bottom bars
-            b = full_list[x][1]
-            c = False
-            d = full_list[x][3]
-            e = full_list[x][4]
-            f = full_list[x][5]
-            g = full_list[x][6]
-            h = full_list[x][7]
-            i = full_list[x][8]
-            j = full_list[x][9]
-            k = full_list[x][10]
-            l = full_list[x][11] 
-            m = full_list[x][12] 
-            n = full_list[x][13] 
-            o = full_list[x][14] 
-            p = full_list[x][15] 
-            q = full_list[x][16] 
-            r = full_list[x][17] 
-            s = full_list[x][18]
-            
-            list_bots.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
-            
-            
-    # now we need to do the matching
     
     pairs_list = match.goodFirst(list_bots, list_tops)
-    #print(pairs_list)
     
-     #now that I have this pairs list, I need to print it to Excel   
+    
+    #now that I have this pairs list, I need to print it to Excel   
     print("Now select where you want this to be saved.")
     print("Pleas enter the filename WITHOUT an extension")
     input("Press enter to continue: ")  
@@ -333,20 +340,4 @@ if __name__ == '__main__':
     outWKBK.close()
     
     print("Done. Have a nice day!")
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
