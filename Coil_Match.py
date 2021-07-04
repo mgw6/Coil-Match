@@ -55,53 +55,14 @@ class coil: #Armature Coil object
             
             
 class Match:
-    def bad_first(list1, list2):
-        list1.sort(key = lambda x: x.min_fcn, reverse = True)
-        list2.sort(key = lambda x: x.min_fcn, reverse = True)
-        
-        L1_len = len(list1)
-        L2_len = len(list2)
-        
-        match_list = []
-        
-        while L2_len >0:
-            for x in range(L1_len): #go through list 1
-                current_Match = 10
-                current_Match_loc = -1
-                
-                current_CE = list1[x].CECA_Avg
-                current_TE = list1[x].TECA_Avg
-                L2_len = len(list2)
-                
-                for y in range(L2_len): #go through list 2
-                    temp_CE = list2[y].CECA_Avg
-                    temp_TE = list2[y].TECA_Avg
-                    
-                    CE_dif = current_CE - temp_CE
-                    TE_dif = current_TE - temp_TE
-                    
-                    temp_avg_dif = abs((CE_dif + TE_dif)/2)
-                    
-                    if temp_avg_dif < current_Match:
-                        current_Match_loc = y
-                        current_Match = temp_avg_dif
-                        
-                
-                temp_list = [list1[x], list2[current_Match_loc], current_Match]
-                
-                match_list.append(temp_list)
-                
-                list2.pop(current_Match_loc)
-                L2_len = len(list2)
-                
-        match_list.sort(key = lambda x: x[2], reverse = False)
-        print(L2_len)
-        return match_list
-        
-        
-    def good_first(list1, list2):
-        list1.sort(key = lambda x: x.min_fcn, reverse = False)
-        list2.sort(key = lambda x: x.min_fcn, reverse = False)
+    
+    def match(list1, list2, good_first = True):
+        if good_first == True:
+            list1.sort(key = lambda x: x.min_fcn, reverse = False)
+            list2.sort(key = lambda x: x.min_fcn, reverse = False)
+        else:
+            list1.sort(key = lambda x: x.min_fcn, reverse = True)
+            list2.sort(key = lambda x: x.min_fcn, reverse = True)
         
         L1_len = len(list1)
         L2_len = len(list2)
@@ -147,7 +108,6 @@ class Match:
         
         for x in coil_list: #goes through whole list
             b = x[1]
-            
             d = x[3]
             e = x[4]
             f = x[5]
@@ -305,8 +265,8 @@ def Main():
     coil_list = XLWork.XL_to_list() #extract data from XL sheet
     [list_tops, list_bots] = Match.split_full_list(coil_list)#split full list into tops and bottoms
     
-    good_pair_list = Match.good_first(list_bots.copy(), list_tops.copy())#make list of pairs
-    bad_pair_list = Match.bad_first(list_bots.copy(), list_tops.copy())#make list of pairs
+    good_pair_list = Match.match(list_bots.copy(), list_tops.copy())#make list of pairs
+    bad_pair_list = Match.match(list_bots.copy(), list_tops.copy(), good_first = False)#make list of pairs
     
     #Set save location
     print("Now select where you want this to be saved.")
