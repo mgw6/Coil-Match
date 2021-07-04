@@ -145,51 +145,34 @@ class Match:
         list_tops = []
         list_bots = []
         
-        for coil in coil_list: #goes through whole list
-            if coil[2] == 'T': #ecoiltracts top bars
-                b = coil[1]
-                c = True
-                d = coil[3]
-                e = coil[4]
-                f = coil[5]
-                g = coil[6]
-                h = coil[7]
-                i = coil[8]
-                j = coil[9]
-                k = coil[10]
-                l = coil[11] 
-                m = coil[12] 
-                n = coil[13] 
-                o = coil[14] 
-                p = coil[15] 
-                q = coil[16] 
-                r = coil[17] 
-                s = coil[18]
-
-                list_tops.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
-                
+        for x in coil_list: #goes through whole list
+            b = x[1]
             
-            elif coil[2] == 'B':  #ecoiltracts bottom bars
-                b = coil[1]
+            d = x[3]
+            e = x[4]
+            f = x[5]
+            g = x[6]
+            h = x[7]
+            i = x[8]
+            j = x[9]
+            k = x[10]
+            l = x[11] 
+            m = x[12] 
+            n = x[13] 
+            o = x[14] 
+            p = x[15] 
+            q = x[16] 
+            r = x[17] 
+            s = x[18]
+            
+            
+            if x[2] == 'T': #extracts top bars
+                c = True
+                list_tops.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))   
+            elif x[2] == 'B':  #extracts bottom bars
                 c = False
-                d = coil[3]
-                e = coil[4]
-                f = coil[5]
-                g = coil[6]
-                h = coil[7]
-                i = coil[8]
-                j = coil[9]
-                k = coil[10]
-                l = coil[11] 
-                m = coil[12] 
-                n = coil[13] 
-                o = coil[14] 
-                p = coil[15] 
-                q = coil[16] 
-                r = coil[17] 
-                s = coil[18]
-                
                 list_bots.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
+                
         return  [list_tops, list_bots]
 
 
