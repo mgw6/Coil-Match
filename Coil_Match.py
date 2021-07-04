@@ -198,7 +198,120 @@ class xlWork:
         root.withdraw()  #https://www.youtube.com/watch?v=H71ts4XxWYU   
         file_path = filedialog.askopenfilename(filetypes = [('Excel Files', '*.xlsx')]) #but basically this opens the file selector  
         df = pd.read_excel(file_path) #https://www.youtube.com/watch?v=S5EVZwXnleM     
-        return df.to_numpy()   
+        return df.to_numpy() 
+
+    def getSavePath():
+        save_loc = filedialog.asksaveasfilename(filetypes = [('Excel Files', 'xlsx.*')]) + '.xlsx'    
+        return xw.Workbook(save_loc)  
+        
+    def write2XL(XLPath, pairs_list, trialName):
+        outSheet = XLPath.add_worksheet(name = "Compact View -- " + trialName)
+        outSheet.write(0,0, 'Top bar') 
+        outSheet.write(0,1, 'Bottom bar')
+        outSheet.write(0,2, 'Avg Diff Val')   
+        for item in range(len(pairs_list)):
+            outSheet.write(item+1, 0, pairs_list[item][0].Bar_num)
+            outSheet.write(item+1, 1, pairs_list[item][1].Bar_num)
+            outSheet.write(item+1, 2, pairs_list[item][2])
+       
+       
+        outSheet = XLPath.add_worksheet(name = "Expanded View -- " + trialName)
+        outSheet.write(0,0, 'Bar #')
+        outSheet.write(0,1, 'T/B')
+        outSheet.write(0,2, 'CE BB1')
+        outSheet.write(0,3, 'CE BB2')
+        outSheet.write(0,4, 'CE BB3')
+        outSheet.write(0,5, 'CE BB4')
+        outSheet.write(0,6, 'CE CA1')
+        outSheet.write(0,7, 'CE CA2')
+        outSheet.write(0,8, 'CE CD1')
+        outSheet.write(0,9, 'CE CD2')
+        outSheet.write(0,10, 'TE BB1')
+        outSheet.write(0,11, 'TE BB2')
+        outSheet.write(0,12, 'TE BB3')
+        outSheet.write(0,13, 'TE BB4')
+        outSheet.write(0,14, 'TE CA1')
+        outSheet.write(0,15, 'TE CA1')
+        outSheet.write(0,16, 'TE CD1')
+        outSheet.write(0,17, 'TE CD2')
+        
+        location = 2
+        for item in range(len(pairs_list)):
+            outSheet.write(location, 0, pairs_list[item][0].Bar_num)
+            outSheet.write(location+1, 0, pairs_list[item][1].Bar_num)
+            
+            
+            if (pairs_list[item][0].Top == True):
+                outSheet.write(location, 1, 'T')
+            else: 
+                outSheet.write(location, 1, 'B')
+            
+            
+            if (pairs_list[item][1].Top == True):
+                outSheet.write(location+1, 1, 'T')
+            else: 
+                outSheet.write(location+1, 1, 'B')
+       
+            
+            outSheet.write(location, 2, pairs_list[item][0].CEBB1)
+            outSheet.write(location+1, 2, pairs_list[item][1].CEBB1)
+            
+            outSheet.write(location, 3, pairs_list[item][0].CEBB2)
+            outSheet.write(location+1, 3, pairs_list[item][1].CEBB2)
+            
+            outSheet.write(location, 4, pairs_list[item][0].CEBB3)
+            outSheet.write(location+1, 4, pairs_list[item][1].CEBB3)
+            
+            outSheet.write(location, 5, pairs_list[item][0].CEBB4)
+            outSheet.write(location+1, 5, pairs_list[item][1].CEBB4)
+            
+            outSheet.write(location, 6, pairs_list[item][0].CECA1)
+            outSheet.write(location+1, 6, pairs_list[item][1].CECA1)
+            
+            outSheet.write(location, 7, pairs_list[item][0].CECA2)
+            outSheet.write(location+1, 7, pairs_list[item][1].CECA2)
+            
+            outSheet.write(location, 8, pairs_list[item][0].CECD1)
+            outSheet.write(location+1, 8, pairs_list[item][1].CECD1)
+            
+            outSheet.write(location, 9, pairs_list[item][0].CECD2)
+            outSheet.write(location+1, 9, pairs_list[item][1].CECD2)
+            
+            outSheet.write(location, 10, pairs_list[item][0].TEBB1)
+            outSheet.write(location+1, 10, pairs_list[item][1].TEBB1)
+            
+            outSheet.write(location, 11, pairs_list[item][0].TEBB2)
+            outSheet.write(location+1, 11, pairs_list[item][1].TEBB2)
+            
+            outSheet.write(location, 12, pairs_list[item][0].TEBB3)
+            outSheet.write(location+1, 12, pairs_list[item][1].TEBB3)
+            
+            outSheet.write(location, 13, pairs_list[item][0].TEBB4)
+            outSheet.write(location+1, 13, pairs_list[item][1].TEBB4)
+            
+            outSheet.write(location, 14, pairs_list[item][0].TECA1)
+            outSheet.write(location+1, 14, pairs_list[item][1].TECA1)
+            
+            outSheet.write(location, 15, pairs_list[item][0].TECA2)
+            outSheet.write(location+1, 15, pairs_list[item][1].TECA2)
+            
+            outSheet.write(location, 16, pairs_list[item][0].TECD1)
+            outSheet.write(location+1, 16, pairs_list[item][1].TECD1)
+            
+            outSheet.write(location, 17, pairs_list[item][0].TECD2)
+            outSheet.write(location+1, 17, pairs_list[item][1].TECD2)
+            
+            
+            
+            
+            outSheet.write(location+2, 0, 'Avg Diff:')
+            outSheet.write(location+2, 1, pairs_list[item][2])
+            
+            
+            location +=4
+        
+
+        XLPath.close()
 
 
 
@@ -212,132 +325,21 @@ if __name__ == '__main__':
     print("If you have modified the file this program will not do what is intended!")
     input("Press enter to select file: ") #First we need to select the in file       
     
-    coil_list = xlWork.XL2List()
     
-    [list_tops, list_bots] = match.splitFullList(coil_list)
+    coil_list = xlWork.XL2List() #extract data from XL sheet
     
+    [list_tops, list_bots] = match.splitFullList(coil_list)#split full list into tops and bottoms
     
-    pairs_list = match.goodFirst(list_bots, list_tops)
+    goodPairList = match.goodFirst(list_bots, list_tops)#make list of pairs
+    badPairList = match.badFirst(list_bots, list_tops)
     
-    
-    #now that I have this pairs list, I need to print it to Excel   
+    #Set save location
     print("Now select where you want this to be saved.")
     print("Pleas enter the filename WITHOUT an extension")
     input("Press enter to continue: ")  
-    save_loc = filedialog.asksaveasfilename(filetypes = [('Excel Files', 'xlsx.*')]) + '.xlsx'    
-    outWKBK = xw.Workbook(save_loc)  
-    
-    
-    
-    
-    
-    outSheet = outWKBK.add_worksheet(name = "Compact View")
-    outSheet.write(0,0, 'Top bar') 
-    outSheet.write(0,1, 'Bottom bar')
-    outSheet.write(0,2, 'Avg Diff Val')   
-    for item in range(len(pairs_list)):
-        outSheet.write(item+1, 0, pairs_list[item][0].Bar_num)
-        outSheet.write(item+1, 1, pairs_list[item][1].Bar_num)
-        outSheet.write(item+1, 2, pairs_list[item][2])
-   
-   
-    outSheet = outWKBK.add_worksheet(name = "Expanded View")
-    outSheet.write(0,0, 'Bar #')
-    outSheet.write(0,1, 'T/B')
-    outSheet.write(0,2, 'CE BB1')
-    outSheet.write(0,3, 'CE BB2')
-    outSheet.write(0,4, 'CE BB3')
-    outSheet.write(0,5, 'CE BB4')
-    outSheet.write(0,6, 'CE CA1')
-    outSheet.write(0,7, 'CE CA2')
-    outSheet.write(0,8, 'CE CD1')
-    outSheet.write(0,9, 'CE CD2')
-    outSheet.write(0,10, 'TE BB1')
-    outSheet.write(0,11, 'TE BB2')
-    outSheet.write(0,12, 'TE BB3')
-    outSheet.write(0,13, 'TE BB4')
-    outSheet.write(0,14, 'TE CA1')
-    outSheet.write(0,15, 'TE CA1')
-    outSheet.write(0,16, 'TE CD1')
-    outSheet.write(0,17, 'TE CD2')
-    
-    location = 2
-    for item in range(len(pairs_list)):
-        outSheet.write(location, 0, pairs_list[item][0].Bar_num)
-        outSheet.write(location+1, 0, pairs_list[item][1].Bar_num)
-        
-        
-        if (pairs_list[item][0].Top == True):
-            outSheet.write(location, 1, 'T')
-        else: 
-            outSheet.write(location, 1, 'B')
-        
-        
-        if (pairs_list[item][1].Top == True):
-            outSheet.write(location+1, 1, 'T')
-        else: 
-            outSheet.write(location+1, 1, 'B')
-   
-        
-        outSheet.write(location, 2, pairs_list[item][0].CEBB1)
-        outSheet.write(location+1, 2, pairs_list[item][1].CEBB1)
-        
-        outSheet.write(location, 3, pairs_list[item][0].CEBB2)
-        outSheet.write(location+1, 3, pairs_list[item][1].CEBB2)
-        
-        outSheet.write(location, 4, pairs_list[item][0].CEBB3)
-        outSheet.write(location+1, 4, pairs_list[item][1].CEBB3)
-        
-        outSheet.write(location, 5, pairs_list[item][0].CEBB4)
-        outSheet.write(location+1, 5, pairs_list[item][1].CEBB4)
-        
-        outSheet.write(location, 6, pairs_list[item][0].CECA1)
-        outSheet.write(location+1, 6, pairs_list[item][1].CECA1)
-        
-        outSheet.write(location, 7, pairs_list[item][0].CECA2)
-        outSheet.write(location+1, 7, pairs_list[item][1].CECA2)
-        
-        outSheet.write(location, 8, pairs_list[item][0].CECD1)
-        outSheet.write(location+1, 8, pairs_list[item][1].CECD1)
-        
-        outSheet.write(location, 9, pairs_list[item][0].CECD2)
-        outSheet.write(location+1, 9, pairs_list[item][1].CECD2)
-        
-        outSheet.write(location, 10, pairs_list[item][0].TEBB1)
-        outSheet.write(location+1, 10, pairs_list[item][1].TEBB1)
-        
-        outSheet.write(location, 11, pairs_list[item][0].TEBB2)
-        outSheet.write(location+1, 11, pairs_list[item][1].TEBB2)
-        
-        outSheet.write(location, 12, pairs_list[item][0].TEBB3)
-        outSheet.write(location+1, 12, pairs_list[item][1].TEBB3)
-        
-        outSheet.write(location, 13, pairs_list[item][0].TEBB4)
-        outSheet.write(location+1, 13, pairs_list[item][1].TEBB4)
-        
-        outSheet.write(location, 14, pairs_list[item][0].TECA1)
-        outSheet.write(location+1, 14, pairs_list[item][1].TECA1)
-        
-        outSheet.write(location, 15, pairs_list[item][0].TECA2)
-        outSheet.write(location+1, 15, pairs_list[item][1].TECA2)
-        
-        outSheet.write(location, 16, pairs_list[item][0].TECD1)
-        outSheet.write(location+1, 16, pairs_list[item][1].TECD1)
-        
-        outSheet.write(location, 17, pairs_list[item][0].TECD2)
-        outSheet.write(location+1, 17, pairs_list[item][1].TECD2)
-        
-        
-        
-        
-        outSheet.write(location+2, 0, 'Avg Diff:')
-        outSheet.write(location+2, 1, pairs_list[item][2])
-        
-        
-        location +=4
-    
-
-    outWKBK.close()
+    outWKBK = xlWork.getSavePath() #set path to save to
+    xlWork.write2XL(outWKBK, goodPairList, "Best First")
+    xlWork.write2XL(outWKBK, badPairList, "Bad First")
     
     print("Done. Have a nice day!")
     
