@@ -86,6 +86,49 @@ class match:
                 
         match_list.sort(key = lambda x: x[2], reverse = False)
         return match_list
+        
+        
+    def goodFirst(list1, list2):
+        list1.sort(key = lambda x: x.Min_Fcn, reverse = False)
+        list2.sort(key = lambda x: x.Min_Fcn, reverse = False)
+        
+        L1_len = len(list1)
+        L2_len = len(list2)
+        
+        match_list = []
+        
+        
+        while L2_len >0:
+            for x in range(L1_len): #go through list 1
+                current_match = 10
+                current_match_loc = -1
+                
+                current_CE = list1[x].CECA_Avg
+                current_TE = list1[x].TECA_Avg
+                L2_len = len(list2)
+                
+                for y in range(L2_len): #go through list 2
+                    temp_CE = list2[y].CECA_Avg
+                    temp_TE = list2[y].TECA_Avg
+                    
+                    CE_dif = current_CE - temp_CE
+                    TE_dif = current_TE - temp_TE
+                    
+                    temp_avg_dif = abs((CE_dif + TE_dif)/2)
+                    
+                    if temp_avg_dif < current_match:
+                        current_match_loc = y
+                        current_match = temp_avg_dif
+                        
+                
+                temp_list = [list1[x], list2[current_match_loc], current_match]
+                match_list.append(temp_list)
+                
+                list2.pop(current_match_loc)
+                L2_len = len(list2)
+                
+        match_list.sort(key = lambda x: x[2], reverse = False)
+        return match_list
 
 
 
@@ -167,7 +210,7 @@ if __name__ == '__main__':
             
     # now we need to do the matching
     
-    pairs_list = match.badFirst(list_bots, list_tops)
+    pairs_list = match.goodFirst(list_bots, list_tops)
     #print(pairs_list)
     
      #now that I have this pairs list, I need to print it to Excel   
