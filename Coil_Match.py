@@ -145,49 +145,49 @@ class Match:
         list_tops = []
         list_bots = []
         
-        for x in coil_list: #goes through whole list
-            if x[2] == 'T': #extracts top bars
-                b = x[1]
+        for coil in coil_list: #goes through whole list
+            if coil[2] == 'T': #ecoiltracts top bars
+                b = coil[1]
                 c = True
-                d = x[3]
-                e = x[4]
-                f = x[5]
-                g = x[6]
-                h = x[7]
-                i = x[8]
-                j = x[9]
-                k = x[10]
-                l = x[11] 
-                m = x[12] 
-                n = x[13] 
-                o = x[14] 
-                p = x[15] 
-                q = x[16] 
-                r = x[17] 
-                s = x[18]
+                d = coil[3]
+                e = coil[4]
+                f = coil[5]
+                g = coil[6]
+                h = coil[7]
+                i = coil[8]
+                j = coil[9]
+                k = coil[10]
+                l = coil[11] 
+                m = coil[12] 
+                n = coil[13] 
+                o = coil[14] 
+                p = coil[15] 
+                q = coil[16] 
+                r = coil[17] 
+                s = coil[18]
 
                 list_tops.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
                 
             
-            elif x[2] == 'B':  #extracts bottom bars
-                b = x[1]
+            elif coil[2] == 'B':  #ecoiltracts bottom bars
+                b = coil[1]
                 c = False
-                d = x[3]
-                e = x[4]
-                f = x[5]
-                g = x[6]
-                h = x[7]
-                i = x[8]
-                j = x[9]
-                k = x[10]
-                l = x[11] 
-                m = x[12] 
-                n = x[13] 
-                o = x[14] 
-                p = x[15] 
-                q = x[16] 
-                r = x[17] 
-                s = x[18]
+                d = coil[3]
+                e = coil[4]
+                f = coil[5]
+                g = coil[6]
+                h = coil[7]
+                i = coil[8]
+                j = coil[9]
+                k = coil[10]
+                l = coil[11] 
+                m = coil[12] 
+                n = coil[13] 
+                o = coil[14] 
+                p = coil[15] 
+                q = coil[16] 
+                r = coil[17] 
+                s = coil[18]
                 
                 list_bots.append(coil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
         return  [list_tops, list_bots]
@@ -211,10 +211,10 @@ class XLWork:
         out_sheet.write(0,0, 'Top bar') 
         out_sheet.write(0,1, 'Bottom bar')
         out_sheet.write(0,2, 'Avg Diff Val')   
-        for item in range(len(pairs_list)):
-            out_sheet.write(item+1, 0, pairs_list[item][0].bar_num)
-            out_sheet.write(item+1, 1, pairs_list[item][1].bar_num)
-            out_sheet.write(item+1, 2, pairs_list[item][2])
+        for pair in range(len(pairs_list)):
+            out_sheet.write(pair+1, 0, pairs_list[pair][0].bar_num)
+            out_sheet.write(pair+1, 1, pairs_list[pair][1].bar_num)
+            out_sheet.write(pair+1, 2, pairs_list[pair][2])
        
        
         out_sheet = XLPath.add_worksheet(name = "Expanded View -- " + trialName)
@@ -238,73 +238,73 @@ class XLWork:
         out_sheet.write(0,17, 'TE CD2')
         
         location = 2
-        for item in range(len(pairs_list)):
-            out_sheet.write(location, 0, pairs_list[item][0].bar_num)
-            out_sheet.write(location+1, 0, pairs_list[item][1].bar_num)
+        for pair in pairs_list:
+            out_sheet.write(location, 0, pair[0].bar_num)
+            out_sheet.write(location+1, 0, pair[1].bar_num)
             
             
-            if (pairs_list[item][0].Top == True):
+            if (pair[0].Top == True):
                 out_sheet.write(location, 1, 'T')
             else: 
                 out_sheet.write(location, 1, 'B')
             
             
-            if (pairs_list[item][1].Top == True):
+            if (pair[1].Top == True):
                 out_sheet.write(location+1, 1, 'T')
             else: 
                 out_sheet.write(location+1, 1, 'B')
        
             
-            out_sheet.write(location, 2, pairs_list[item][0].CEBB1)
-            out_sheet.write(location+1, 2, pairs_list[item][1].CEBB1)
+            out_sheet.write(location, 2, pair[0].CEBB1)
+            out_sheet.write(location+1, 2, pair[1].CEBB1)
             
-            out_sheet.write(location, 3, pairs_list[item][0].CEBB2)
-            out_sheet.write(location+1, 3, pairs_list[item][1].CEBB2)
+            out_sheet.write(location, 3, pair[0].CEBB2)
+            out_sheet.write(location+1, 3, pair[1].CEBB2)
             
-            out_sheet.write(location, 4, pairs_list[item][0].CEBB3)
-            out_sheet.write(location+1, 4, pairs_list[item][1].CEBB3)
+            out_sheet.write(location, 4, pair[0].CEBB3)
+            out_sheet.write(location+1, 4, pair[1].CEBB3)
             
-            out_sheet.write(location, 5, pairs_list[item][0].CEBB4)
-            out_sheet.write(location+1, 5, pairs_list[item][1].CEBB4)
+            out_sheet.write(location, 5, pair[0].CEBB4)
+            out_sheet.write(location+1, 5, pair[1].CEBB4)
             
-            out_sheet.write(location, 6, pairs_list[item][0].CECA1)
-            out_sheet.write(location+1, 6, pairs_list[item][1].CECA1)
+            out_sheet.write(location, 6, pair[0].CECA1)
+            out_sheet.write(location+1, 6, pair[1].CECA1)
             
-            out_sheet.write(location, 7, pairs_list[item][0].CECA2)
-            out_sheet.write(location+1, 7, pairs_list[item][1].CECA2)
+            out_sheet.write(location, 7, pair[0].CECA2)
+            out_sheet.write(location+1, 7, pair[1].CECA2)
             
-            out_sheet.write(location, 8, pairs_list[item][0].CECD1)
-            out_sheet.write(location+1, 8, pairs_list[item][1].CECD1)
+            out_sheet.write(location, 8, pair[0].CECD1)
+            out_sheet.write(location+1, 8, pair[1].CECD1)
             
-            out_sheet.write(location, 9, pairs_list[item][0].CECD2)
-            out_sheet.write(location+1, 9, pairs_list[item][1].CECD2)
+            out_sheet.write(location, 9, pair[0].CECD2)
+            out_sheet.write(location+1, 9, pair[1].CECD2)
             
-            out_sheet.write(location, 10, pairs_list[item][0].TEBB1)
-            out_sheet.write(location+1, 10, pairs_list[item][1].TEBB1)
+            out_sheet.write(location, 10, pair[0].TEBB1)
+            out_sheet.write(location+1, 10, pair[1].TEBB1)
             
-            out_sheet.write(location, 11, pairs_list[item][0].TEBB2)
-            out_sheet.write(location+1, 11, pairs_list[item][1].TEBB2)
+            out_sheet.write(location, 11, pair[0].TEBB2)
+            out_sheet.write(location+1, 11, pair[1].TEBB2)
             
-            out_sheet.write(location, 12, pairs_list[item][0].TEBB3)
-            out_sheet.write(location+1, 12, pairs_list[item][1].TEBB3)
+            out_sheet.write(location, 12, pair[0].TEBB3)
+            out_sheet.write(location+1, 12, pair[1].TEBB3)
             
-            out_sheet.write(location, 13, pairs_list[item][0].TEBB4)
-            out_sheet.write(location+1, 13, pairs_list[item][1].TEBB4)
+            out_sheet.write(location, 13, pair[0].TEBB4)
+            out_sheet.write(location+1, 13, pair[1].TEBB4)
             
-            out_sheet.write(location, 14, pairs_list[item][0].TECA1)
-            out_sheet.write(location+1, 14, pairs_list[item][1].TECA1)
+            out_sheet.write(location, 14, pair[0].TECA1)
+            out_sheet.write(location+1, 14, pair[1].TECA1)
             
-            out_sheet.write(location, 15, pairs_list[item][0].TECA2)
-            out_sheet.write(location+1, 15, pairs_list[item][1].TECA2)
+            out_sheet.write(location, 15, pair[0].TECA2)
+            out_sheet.write(location+1, 15, pair[1].TECA2)
             
-            out_sheet.write(location, 16, pairs_list[item][0].TECD1)
-            out_sheet.write(location+1, 16, pairs_list[item][1].TECD1)
+            out_sheet.write(location, 16, pair[0].TECD1)
+            out_sheet.write(location+1, 16, pair[1].TECD1)
             
-            out_sheet.write(location, 17, pairs_list[item][0].TECD2)
-            out_sheet.write(location+1, 17, pairs_list[item][1].TECD2)
+            out_sheet.write(location, 17, pair[0].TECD2)
+            out_sheet.write(location+1, 17, pair[1].TECD2)
             
             out_sheet.write(location+2, 0, 'Avg Diff:')
-            out_sheet.write(location+2, 1, pairs_list[item][2])
+            out_sheet.write(location+2, 1, pair[2])
             
             location +=4
 
