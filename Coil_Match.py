@@ -64,24 +64,19 @@ class Match:
             list1.sort(key = lambda x: x.min_fcn, reverse = True)
             list2.sort(key = lambda x: x.min_fcn, reverse = True)
         
-        L1_len = len(list1)
-        L2_len = len(list2)
-        
         match_list = []
         
-        
-        while L2_len >0:
-            for x in range(L1_len): #go through list 1
+        while len(list2) >0:
+            for x1 in range(len(list1)): #go through list 1
                 current_Match = 10
                 current_Match_loc = -1
                 
-                current_CE = list1[x].CECA_Avg
-                current_TE = list1[x].TECA_Avg
-                L2_len = len(list2)
+                current_CE = list1[x1].CECA_Avg
+                current_TE = list1[x1].TECA_Avg
                 
-                for y in range(L2_len): #go through list 2
-                    temp_CE = list2[y].CECA_Avg
-                    temp_TE = list2[y].TECA_Avg
+                for x2 in range(len(list2)): #go through list 2
+                    temp_CE = list2[x2].CECA_Avg
+                    temp_TE = list2[x2].TECA_Avg
                     
                     CE_dif = current_CE - temp_CE
                     TE_dif = current_TE - temp_TE
@@ -89,11 +84,10 @@ class Match:
                     temp_avg_dif = abs((CE_dif + TE_dif)/2)
                     
                     if temp_avg_dif < current_Match:
-                        current_Match_loc = y
+                        current_Match_loc = x2
                         current_Match = temp_avg_dif
-                        
                 
-                temp_list = [list1[x], list2[current_Match_loc], current_Match]
+                temp_list = [list1[x1], list2[current_Match_loc], current_Match]
                 match_list.append(temp_list)
                 
                 list2.pop(current_Match_loc)
@@ -154,10 +148,10 @@ class XLWork:
         out_sheet.write(0,0, 'Top bar') 
         out_sheet.write(0,1, 'Bottom bar')
         out_sheet.write(0,2, 'Avg Diff Val')   
-        for pair in range(len(pairs_list)):
-            out_sheet.write(pair+1, 0, pairs_list[pair][0].bar_num)
-            out_sheet.write(pair+1, 1, pairs_list[pair][1].bar_num)
-            out_sheet.write(pair+1, 2, pairs_list[pair][2])
+        for x in range(len(pairs_list)):
+            out_sheet.write(x+1, 0, pairs_list[x][0].bar_num)
+            out_sheet.write(x+1, 1, pairs_list[x][1].bar_num)
+            out_sheet.write(x+1, 2, pairs_list[x][2])
        
        
         out_sheet = XLPath.add_worksheet(name = "Expanded View -- " + trialName)
