@@ -167,7 +167,7 @@ if __name__ == '__main__':
             
     # now we need to do the matching
     
-    pairs_list = match.goodFirst(list_bots, list_tops)
+    pairs_list = match.badFirst(list_bots, list_tops)
     #print(pairs_list)
     
      #now that I have this pairs list, I need to print it to Excel   
