@@ -13,7 +13,7 @@ import xlsxwriter as xw
 class ArmCoil: #Armature Coil object
     def __init__(self, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S):
         #letter above corresponds to column letter in Excel sheet
-        self.bar_num = B #String
+        self.coil_num = B #String
         self.Top   = C #Boolean	
         self.CEBB1 = D #All following are doubles
         self.CEBB2 = E
@@ -120,10 +120,10 @@ class Match:
             s = coil[18]
             
             
-            if coil[2] == 'T': #extracts top bars
+            if coil[2] == 'T': #extracts top coils
                 c = True
                 list_tops.append(ArmCoil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))   
-            elif coil[2] == 'B':  #extracts bottom bars
+            elif coil[2] == 'B':  #extracts bottom coils
                 c = False
                 list_bots.append(ArmCoil(b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s))
                 
@@ -145,17 +145,17 @@ class XLWork:
     def write_to_xl(XLPath, pairs_list, trialName):
         
         out_sheet = XLPath.add_worksheet(name = "Compact View -- " + trialName)
-        out_sheet.write(0,0, 'Top bar') 
-        out_sheet.write(0,1, 'Bottom bar')
+        out_sheet.write(0,0, 'Top Coil') 
+        out_sheet.write(0,1, 'Bottom Coil')
         out_sheet.write(0,2, 'Avg Diff Val')   
         for x in range(len(pairs_list)):
-            out_sheet.write(x+1, 0, pairs_list[x][0].bar_num)
-            out_sheet.write(x+1, 1, pairs_list[x][1].bar_num)
+            out_sheet.write(x+1, 0, pairs_list[x][0].coil_num)
+            out_sheet.write(x+1, 1, pairs_list[x][1].coil_num)
             out_sheet.write(x+1, 2, pairs_list[x][2])
        
        
         out_sheet = XLPath.add_worksheet(name = "Expanded View -- " + trialName)
-        out_sheet.write(0,0, 'Bar #')
+        out_sheet.write(0,0, 'Coil #')
         out_sheet.write(0,1, 'T/B')
         out_sheet.write(0,2, 'CE BB1')
         out_sheet.write(0,3, 'CE BB2')
@@ -176,8 +176,8 @@ class XLWork:
         
         location = 2
         for pair in pairs_list:
-            out_sheet.write(location, 0, pair[0].bar_num)
-            out_sheet.write(location+1, 0, pair[1].bar_num)
+            out_sheet.write(location, 0, pair[0].coil_num)
+            out_sheet.write(location+1, 0, pair[1].coil_num)
             
             
             if (pair[0].Top == True):
